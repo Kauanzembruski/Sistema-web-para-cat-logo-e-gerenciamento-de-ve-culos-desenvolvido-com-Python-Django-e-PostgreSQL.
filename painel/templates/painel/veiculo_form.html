@@ -1,0 +1,104 @@
+{% extends "painel/base.html" %}
+
+{% block title %}{{ page_title }} | Painel FCA Prime Cars{% endblock %}
+{% block page_title %}
+    <a class="panel-title-back" href="{% url 'painel:dashboard' %}" aria-label="Voltar para visão geral">
+        <i data-lucide="arrow-left" aria-hidden="true"></i>
+    </a>
+    {{ page_title }}
+{% endblock %}
+{% block page_subtitle %}{{ page_subtitle }}{% endblock %}
+
+{% block content %}
+{% if form_action == "painel:veiculo_editar" %}
+    <form class="panel-form-card" action="{% url form_action veiculo.slug %}" method="post" enctype="multipart/form-data" novalidate>
+{% else %}
+    <form class="panel-form-card" action="{% url form_action %}" method="post" enctype="multipart/form-data" novalidate>
+{% endif %}
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+        <div class="panel-form-errors">
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
+
+    <section class="panel-form-section is-active">
+        <h2>Informações do veículo</h2>
+        <div class="panel-form-grid">
+            <label>
+                <span>{{ form.marca.label }} *</span>
+                {{ form.marca }}
+                {{ form.marca.errors }}
+            </label>
+            <label>
+                <span>{{ form.modelo.label }} *</span>
+                {{ form.modelo }}
+                {{ form.modelo.errors }}
+            </label>
+            <label>
+                <span>{{ form.descricao.label }}</span>
+                {{ form.descricao }}
+                {{ form.descricao.errors }}
+            </label>
+            <label>
+                <span>{{ form.ano.label }} *</span>
+                {{ form.ano }}
+                {{ form.ano.errors }}
+            </label>
+            <label>
+                <span>{{ form.valor.label }} *</span>
+                {{ form.valor }}
+                {{ form.valor.errors }}
+            </label>
+            <label>
+                <span>{{ form.quilometragem.label }} *</span>
+                {{ form.quilometragem }}
+                {{ form.quilometragem.errors }}
+            </label>
+            <label>
+                <span>{{ form.cor.label }} *</span>
+                {{ form.cor }}
+                {{ form.cor.errors }}
+            </label>
+            <label>
+                <span>{{ form.combustivel.label }} *</span>
+                {{ form.combustivel }}
+                {{ form.combustivel.errors }}
+            </label>
+            <label>
+                <span>{{ form.cambio.label }} *</span>
+                {{ form.cambio }}
+                {{ form.cambio.errors }}
+            </label>
+            <label class="panel-form-wide panel-photo-upload" data-photo-upload>
+                <span>{{ form.foto.label }}</span>
+                <span class="panel-photo-dropzone">
+                    <i data-lucide="image-plus" aria-hidden="true"></i>
+                    {{ form.foto }}
+                    <span class="panel-photo-action">Selecionar fotos</span>
+                    <span class="panel-photo-count" data-photo-count>Nenhuma foto selecionada</span>
+                </span>
+                {{ form.foto.errors }}
+            </label>
+        </div>
+    </section>
+
+    <section class="panel-form-section is-active">
+        <h2>Publicação</h2>
+        <div class="panel-checks">
+            <label>{{ form.publicado }} <span>Publicado</span></label>
+            <label>{{ form.destaque }} <span>Destaque na home</span></label>
+            <label>{{ form.vendido }} <span>Vendido</span></label>
+        </div>
+    </section>
+
+    <div class="panel-form-actions">
+        <a class="panel-secondary-action" href="{% url 'painel:dashboard' %}">Cancelar</a>
+        <button class="panel-submit" type="submit">
+            {{ submit_label }}
+            <i data-lucide="arrow-right" aria-hidden="true"></i>
+        </button>
+    </div>
+</form>
+{% endblock %}

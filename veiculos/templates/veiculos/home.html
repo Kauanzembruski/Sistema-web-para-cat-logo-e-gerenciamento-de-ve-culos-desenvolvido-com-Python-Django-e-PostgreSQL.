@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}FCA PRIME CARS | Revenda premium multimarcas{% endblock %}
+{% block body_class %}home-body{% endblock %}
+
+{% block content %}
+<section class="home-hero" style="--home-bg: url('{% static "img/background_home.png" %}');">
+    <div class="container home-hero-inner">
+        <div class="home-copy">
+            <p class="eyebrow">Revenda premium multimarcas</p>
+            <h1>Encontre o veículo ideal para o seu momento.</h1>
+            <p class="home-lead">Curadoria de veículos selecionados, atendimento consultivo e negociação com segurança.</p>
+            <div class="home-actions">
+                <a class="home-primary" href="{% url 'veiculos:catalogo' %}">
+                    Ver catálogo
+                    <i data-lucide="arrow-right" aria-hidden="true"></i>
+                </a>
+                <a class="home-secondary" href="https://wa.me/5554996170792?text=Olá Felipe! Quero negociar🚀">
+                    <i data-lucide="message-circle" aria-hidden="true"></i>
+                    Fale no WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if destaques %}
+<section class="home-featured" aria-labelledby="featured-title">
+    <div class="container featured-inner">
+        <div class="featured-head">
+            <div>
+                <p class="eyebrow">Destaques</p>
+                <h2 id="featured-title">Veículos que se destacam.</h2>
+            </div>
+            <a class="featured-link" href="{% url 'veiculos:catalogo' %}">
+                Ver catálogo completo
+                <i data-lucide="arrow-right" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <div class="featured-carousel">
+            <div class="featured-track" data-featured-carousel>
+                {% for veiculo in destaques %}
+                    {% include "veiculos/partials/card_veiculo.html" with veiculo=veiculo %}
+                {% endfor %}
+            </div>
+
+            {% if destaques|length > 4 %}
+                <button class="featured-arrow featured-prev" type="button" aria-label="Ver destaques anteriores" data-featured-prev disabled>
+                    <i data-lucide="chevron-left" aria-hidden="true"></i>
+                </button>
+                <button class="featured-arrow featured-next" type="button" aria-label="Ver próximos destaques" data-featured-next>
+                    <i data-lucide="chevron-right" aria-hidden="true"></i>
+                </button>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="home-closing" style="--closing-bg: url('{% static "img/fim_home.png" %}');" aria-labelledby="closing-title">
+    <div class="container closing-inner">
+        <div class="closing-copy">
+            <p class="eyebrow">Atendimento consultivo</p>
+            <h2 id="closing-title">Mais do que vender carros, entregamos confiança.</h2>
+            <p>Aqui você encontra mais do que veículos. Você encontra transparência, segurança e um time pronto para te ajudar a fazer a melhor escolha.</p>
+            <a class="closing-button" href="https://wa.me/5554996170792?text=Olá Felipe! Quero negociar🚀">
+                <i data-lucide="message-circle" aria-hidden="true"></i>
+                Falar com um consultor
+                <i data-lucide="arrow-right" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer class="home-footer">
+    <div class="container footer-main">
+        <a class="footer-brand" href="{% url 'veiculos:home' %}" aria-label="FCA PRIME CARS">
+            <img src="{% static 'img/logo.png' %}" alt="FCA PRIME CARS">
+        </a>
+
+        <nav class="footer-nav" aria-label="Menu do rodapé">
+            <a href="{% url 'veiculos:home' %}">Início</a>
+            <a href="{% url 'veiculos:catalogo' %}">Catálogo</a>
+            <a href="#sobre">Sobre nós</a>
+            <a href="#contato">Contato</a>
+        </nav>
+
+        <div class="footer-social" aria-label="Redes sociais">
+            <a href="https://www.instagram.com/fca_primecars/" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <rect x="4" y="4" width="16" height="16" rx="5"></rect>
+                    <circle cx="12" cy="12" r="3.5"></circle>
+                    <circle cx="17" cy="7" r="1"></circle>
+                </svg>
+            </a>
+            <a href="#" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M14 8h2V5h-2c-2.4 0-4 1.6-4 4v2H8v3h2v6h3v-6h2.2l.8-3h-3V9c0-.6.4-1 1-1Z"></path>
+                </svg>
+            </a>
+            <a href="https://wa.me/5554996170792?text=Olá Felipe! Quero negociar🚀" aria-label="WhatsApp"><i data-lucide="message-circle" aria-hidden="true"></i></a>
+        </div>
+    </div>
+
+    <div class="container footer-bottom">
+        <p>© 2026 FCA Prime Cars. Todos os direitos reservados.</p>
+    </div>
+</footer>
+{% endblock %}

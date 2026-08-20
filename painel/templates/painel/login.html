@@ -1,0 +1,51 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login | Painel FCA Prime Cars</title>
+    <link rel="stylesheet" href="{% static 'css/painel.css' %}?v=20260818-1">
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
+</head>
+<body class="panel-login-body">
+    <main class="panel-login-page">
+        <section class="panel-login-card" aria-labelledby="login-title">
+            <img class="panel-login-logo" src="{% static 'img/logoadmin.png' %}" alt="FCA Prime Cars">
+
+            <div>
+                <p class="panel-login-kicker">Área administrativa</p>
+                <h1 id="login-title">Entrar no painel</h1>
+                <p>Acesse sua conta para gerenciar o catálogo.</p>
+            </div>
+
+            <form class="panel-login-form" action="{% url 'painel:login' %}" method="post" novalidate>
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}">
+
+                {% if error %}
+                    <p class="panel-login-error">{{ error }}</p>
+                {% endif %}
+
+                <label>
+                    <span>Usuário</span>
+                    <input type="text" name="username" value="{{ username }}" autocomplete="username" required autofocus>
+                </label>
+
+                <label>
+                    <span>Senha</span>
+                    <input type="password" name="password" autocomplete="current-password" required>
+                </label>
+
+                <button class="panel-submit" type="submit">
+                    Entrar
+                    <i data-lucide="arrow-right" aria-hidden="true"></i>
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="{% static 'js/painel.js' %}?v=20260818-1" defer></script>
+</body>
+</html>

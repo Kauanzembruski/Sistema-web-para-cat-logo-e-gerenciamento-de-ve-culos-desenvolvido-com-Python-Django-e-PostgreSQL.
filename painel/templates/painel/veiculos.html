@@ -1,0 +1,74 @@
+{% extends "painel/base.html" %}
+
+{% block title %}Veículos | Painel FCA Prime Cars{% endblock %}
+{% block page_title %}Veículos{% endblock %}
+{% block page_subtitle %}Pesquise, filtre e gerencie os veículos do catálogo.{% endblock %}
+
+{% block content %}
+<section class="panel-card">
+    <div class="panel-card-head panel-toolbar">
+        <form class="panel-filter-form" action="{% url 'painel:veiculos' %}" method="get">
+            <label>
+                <span class="sr-only">Pesquisar veículos</span>
+                <input type="search" name="busca" value="{{ filtros.busca }}" placeholder="Pesquisar por marca, modelo, ano ou cor">
+            </label>
+            <label>
+                <span class="sr-only">Filtrar por status</span>
+                <select name="status" onchange="this.form.submit()">
+                    <option value="todos" {% if filtros.status == "todos" %}selected{% endif %}>Todos</option>
+                    <option value="publicados" {% if filtros.status == "publicados" %}selected{% endif %}>Publicados</option>
+                    <option value="rascunhos" {% if filtros.status == "rascunhos" %}selected{% endif %}>Rascunhos</option>
+                    <option value="vendidos" {% if filtros.status == "vendidos" %}selected{% endif %}>Vendidos</option>
+                    <option value="destaques" {% if filtros.status == "destaques" %}selected{% endif %}>Destaques</option>
+                </select>
+            </label>
+            <button class="panel-secondary-action" type="submit">Filtrar</button>
+        </form>
+
+        <a class="panel-action" href="{% url 'painel:veiculo_criar' %}">
+            <i data-lucide="plus" aria-hidden="true"></i>
+            Novo veículo
+        </a>
+    </div>
+
+    <div class="panel-table">
+        <div class="panel-row panel-row-head">
+            <span>Veículo</span>
+            <span>Ano</span>
+            <span>Preço</span>
+            <span>Status</span>
+            <span></span>
+        </div>
+
+        {% for veiculo in veiculos %}
+            <div class="panel-row">
+                <span class="panel-vehicle">
+                    <img src="{{ veiculo.imagem }}" alt="{{ veiculo.alt }}">
+                    <strong>{{ veiculo.marca }} {{ veiculo.modelo }}</strong>
+                </span>
+                <span>{{ veiculo.ano }}</span>
+                <span>{{ veiculo.preco }}</span>
+                <span>
+                    {% if veiculo.publicado %}
+                        <mark class="status-published">Publicado</mark>
+                    {% else %}
+                        <mark class="status-draft">Rascunho</mark>
+                    {% endif %}
+                </span>
+                <span class="panel-row-actions">
+                    <a href="{% url 'painel:veiculo_editar' veiculo.slug %}" aria-label="Editar {{ veiculo.marca }} {{ veiculo.modelo }}">
+                        <i data-lucide="pencil" aria-hidden="true"></i>
+                    </a>
+                    <a class="is-danger" href="{% url 'painel:veiculo_excluir' veiculo.slug %}" aria-label="Excluir {{ veiculo.marca }} {{ veiculo.modelo }}">
+                        <i data-lucide="trash-2" aria-hidden="true"></i>
+                    </a>
+                </span>
+            </div>
+        {% empty %}
+            <div class="panel-empty-row">
+                Nenhum veículo encontrado.
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

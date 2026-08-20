@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}{{ veiculo.marca }} {{ veiculo.modelo }} | FCA PRIME CARS{% endblock %}
+
+{% block content %}
+<section class="detail-page">
+    <div class="container detail-layout">
+        <a class="back-link" href="{% url 'veiculos:catalogo' %}">
+            <i data-lucide="arrow-left" aria-hidden="true"></i>
+            Voltar ao catálogo
+        </a>
+
+        <div class="detail-media">
+            <img src="{{ veiculo.imagem }}" alt="{{ veiculo.alt }}">
+            <span class="year-badge">{{ veiculo.ano }}</span>
+        </div>
+
+        <aside class="detail-summary">
+            <p class="eyebrow">Disponível para visita</p>
+            <p class="detail-brand">{{ veiculo.marca }}</p>
+            <h1>{{ veiculo.modelo }}</h1>
+            <p class="detail-version">{{ veiculo.versao }}</p>
+
+            <div class="detail-specs" aria-label="Características principais">
+                <span><i data-lucide="gauge" aria-hidden="true"></i>{{ veiculo.km }}</span>
+                <span><i data-lucide="settings" aria-hidden="true"></i>{{ veiculo.cambio }}</span>
+                <span><i data-lucide="fuel" aria-hidden="true"></i>{{ veiculo.combustivel }}</span>
+            </div>
+
+            <p class="detail-price">{{ veiculo.preco }}</p>
+            <a class="whatsapp-wide" href="https://wa.me/5511999999999">
+                Fale no WhatsApp
+                <i data-lucide="arrow-right" aria-hidden="true"></i>
+            </a>
+        </aside>
+    </div>
+</section>
+{% endblock %}

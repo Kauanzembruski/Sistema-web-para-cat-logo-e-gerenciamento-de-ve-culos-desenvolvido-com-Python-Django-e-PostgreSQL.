@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Catálogo de Veículos | FCA PRIME CARS{% endblock %}
+
+{% block content %}
+<section class="catalog-page">
+    <div class="container">
+        <div class="catalog-hero">
+            <div>
+                <p class="eyebrow">Revenda premium multimarcas</p>
+                <h1>Catálogo de Veículos</h1>
+                <p>Encontre o veículo ideal para você.</p>
+            </div>
+
+            <button class="filter-trigger" type="button" aria-haspopup="dialog" aria-controls="catalog-filter-modal" aria-expanded="false" data-filter-open>
+                <span class="filter-trigger-icon">
+                    <i data-lucide="filter" aria-hidden="true"></i>
+                </span>
+                <span>Filtrar veículos</span>
+            </button>
+        </div>
+
+        {% include "veiculos/partials/filtros.html" %}
+
+        <section class="catalog-board" aria-label="Veículos encontrados">
+            <div class="catalog-tools">
+                <span>{{ total_encontrados }} veículo{{ total_encontrados|pluralize:"s" }} encontrado{{ total_encontrados|pluralize:"s" }}</span>
+                <form class="sort-control" action="{% url 'veiculos:catalogo' %}" method="get">
+                    <input type="hidden" name="busca" value="{{ filtros.busca }}">
+                    <input type="hidden" name="marca" value="{{ filtros.marca }}">
+                    <input type="hidden" name="modelo" value="{{ filtros.modelo }}">
+                    <input type="hidden" name="ano" value="{{ filtros.ano }}">
+                    <input type="hidden" name="cambio" value="{{ filtros.cambio }}">
+                    <input type="hidden" name="combustivel" value="{{ filtros.combustivel }}">
+                    <span class="sort-label">Ordenar por</span>
+                    <select name="ordenacao" data-sort-select onchange="this.form.submit()">
+                        <option value="recentes" {% if filtros.ordenacao == "recentes" %}selected{% endif %}>Mais recentes</option>
+                        <option value="menor-preco" {% if filtros.ordenacao == "menor-preco" %}selected{% endif %}>Menor preço</option>
+                        <option value="maior-preco" {% if filtros.ordenacao == "maior-preco" %}selected{% endif %}>Maior preço</option>
+                        <option value="menor-km" {% if filtros.ordenacao == "menor-km" %}selected{% endif %}>Menor km</option>
+                        <option value="maior-km" {% if filtros.ordenacao == "maior-km" %}selected{% endif %}>Maior km</option>
+                    </select>
+                </form>
+            </div>
+
+            <div class="vehicle-grid">
+                {% for veiculo in veiculos %}
+                    {% include "veiculos/partials/card_veiculo.html" with veiculo=veiculo %}
+                {% empty %}
+                    <div class="empty-state">
+                        <h2>Nenhum veículo encontrado</h2>
+                        <p>Ajuste os filtros ou limpe a busca para ver outras opções disponíveis.</p>
+                        <a class="details-button" href="{% url 'veiculos:catalogo' %}">Limpar filtros</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        {% if pagina.paginator.num_pages > 1 %}
+            <nav class="pagination" aria-label="Paginação">
+                {% if pagina.has_previous %}
+                    <a href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ pagina.previous_page_number }}" aria-label="Página anterior"><i data-lucide="arrow-left" aria-hidden="true"></i></a>
+                {% endif %}
+
+                {% for numero in pagina.paginator.page_range %}
+                    {% if numero == pagina.number %}
+                        <a class="is-current" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ numero }}">{{ numero }}</a>
+                    {% elif numero >= pagina.number|add:"-2" and numero <= pagina.number|add:"2" %}
+                        <a href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ numero }}">{{ numero }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if pagina.has_next %}
+                    <a href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ pagina.next_page_number }}" aria-label="Próxima página"><i data-lucide="arrow-right" aria-hidden="true"></i></a>
+                {% endif %}
+            </nav>
+        {% endif %}
+    </div>
+</section>
+
+<section class="store-strip" id="sobre">
+    <div class="container strip-inner">
+        <div>
+            <span class="eyebrow">FCA PRIME CARS</span>
+            <h2>Atendimento consultivo para comprar com segurança.</h2>
+        </div>
+        <a class="strip-button" href="https://wa.me/5511999999999" id="contato">Falar com um consultor</a>
+    </div>
+</section>
+{% endblock %}

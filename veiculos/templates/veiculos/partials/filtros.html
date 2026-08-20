@@ -1,0 +1,86 @@
+<section class="filter-shell" id="catalog-filter-modal" role="dialog" aria-modal="true" aria-labelledby="filter-title" aria-hidden="true" data-filter-modal>
+    <button class="filter-backdrop" type="button" aria-label="Fechar filtros" data-filter-close></button>
+
+    <div class="filter-panel">
+        <div class="filter-panel-head">
+            <div>
+                <p class="eyebrow">Catálogo</p>
+                <h2 id="filter-title">Filtrar veículos</h2>
+            </div>
+            <button class="filter-close" type="button" aria-label="Fechar filtros" data-filter-close>
+                <i data-lucide="x" aria-hidden="true"></i>
+            </button>
+        </div>
+
+    <form class="filter-form" action="{% url 'veiculos:catalogo' %}" method="get">
+        <input type="hidden" name="ordenacao" value="{{ filtros.ordenacao }}">
+
+        <label class="search-control">
+            <i data-lucide="search" aria-hidden="true"></i>
+            <span class="sr-only">Buscar</span>
+            <input type="search" name="busca" value="{{ filtros.busca }}" placeholder="Buscar marca ou modelo...">
+        </label>
+
+        <label class="select-control">
+            <span>Marca</span>
+            <select name="marca">
+                <option value="todas">Todas</option>
+                {% for marca in marcas %}
+                    <option value="{{ marca.nome }}" {% if filtros.marca == marca.nome %}selected{% endif %}>{{ marca.nome }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label class="select-control">
+            <span>Modelo</span>
+            <select name="modelo">
+                <option value="todos">Todos</option>
+                {% for modelo in modelos %}
+                    <option value="{{ modelo }}" {% if filtros.modelo == modelo %}selected{% endif %}>{{ modelo }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label class="select-control">
+            <span>Ano</span>
+            <select name="ano">
+                <option value="todos">Todos</option>
+                {% for ano in anos %}
+                    <option value="{{ ano }}" {% if filtros.ano == ano|stringformat:"s" %}selected{% endif %}>{{ ano }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label class="select-control">
+            <span>Câmbio</span>
+            <select name="cambio">
+                <option value="todos">Todos</option>
+                {% for cambio in cambios %}
+                    <option value="{{ cambio }}" {% if filtros.cambio == cambio %}selected{% endif %}>{{ cambio }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label class="select-control">
+            <span>Combustível</span>
+            <select name="combustivel">
+                <option value="todos">Todos</option>
+                {% for combustivel in combustiveis %}
+                    <option value="{{ combustivel }}" {% if filtros.combustivel == combustivel %}selected{% endif %}>{{ combustivel }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <div class="filter-actions">
+            <a class="more-filter-button" href="{% url 'veiculos:catalogo' %}">
+                <i data-lucide="x" aria-hidden="true"></i>
+                Limpar filtros
+            </a>
+            <button class="apply-filter-button" type="submit">
+                Aplicar filtros
+                <i data-lucide="arrow-right" aria-hidden="true"></i>
+            </button>
+        </div>
+    </form>
+    </div>
+</section>

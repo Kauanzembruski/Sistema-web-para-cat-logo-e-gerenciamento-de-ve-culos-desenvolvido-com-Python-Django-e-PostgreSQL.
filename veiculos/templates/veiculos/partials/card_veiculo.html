@@ -1,0 +1,29 @@
+<article class="vehicle-card">
+    <a class="vehicle-image-link" href="{% url 'veiculos:detalhe' veiculo.slug %}" aria-label="Ver detalhes de {{ veiculo.marca }} {{ veiculo.modelo }}">
+        <img src="{{ veiculo.imagem }}" alt="{{ veiculo.alt }}" loading="lazy">
+        <span class="year-badge">{{ veiculo.ano }}</span>
+    </a>
+
+    <button class="favorite-button" type="button" aria-label="Adicionar {{ veiculo.marca }} {{ veiculo.modelo }} aos favoritos" aria-pressed="false">
+        <i data-lucide="heart" aria-hidden="true"></i>
+    </button>
+
+    <div class="vehicle-body">
+        <p class="vehicle-brand">{{ veiculo.marca }}</p>
+        <h2>{{ veiculo.modelo }}</h2>
+        <p class="vehicle-version">{{ veiculo.versao }}</p>
+
+        <div class="vehicle-specs" aria-label="Caracteristicas principais">
+            <span><i data-lucide="gauge" aria-hidden="true"></i>{{ veiculo.km }}</span>
+            <span><i data-lucide="settings" aria-hidden="true"></i>{{ veiculo.cambio }}</span>
+            <span><i data-lucide="fuel" aria-hidden="true"></i>{{ veiculo.combustivel }}</span>
+        </div>
+
+        <p class="vehicle-price">{{ veiculo.preco }}</p>
+
+        <a class="details-button" href="{% url 'veiculos:detalhe' veiculo.slug %}">
+            Ver detalhes
+            <i data-lucide="arrow-right" aria-hidden="true"></i>
+        </a>
+    </div>
+</article>

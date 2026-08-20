@@ -1,0 +1,69 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Painel | FCA Prime Cars{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/painel.css' %}?v=20260818-responsive">
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
+</head>
+<body class="panel-body">
+    <aside class="panel-sidebar" aria-label="Menu do painel">
+        <a class="panel-brand" href="{% url 'painel:dashboard' %}" aria-label="FCA Prime Cars">
+            <img src="{% static 'img/logoadmin.png' %}" alt="FCA Prime Cars">
+        </a>
+
+        <nav class="panel-nav">
+            <a class="{% if active_page == 'dashboard' %}is-active{% endif %}" href="{% url 'painel:dashboard' %}">
+                <i data-lucide="layout-dashboard" aria-hidden="true"></i>
+                Visão geral
+            </a>
+            <a class="{% if active_page == 'veiculos' %}is-active{% endif %}" href="{% url 'painel:veiculos' %}">
+                <i data-lucide="car-front" aria-hidden="true"></i>
+                Veículos
+            </a>
+        </nav>
+
+        <div class="panel-sidebar-actions">
+            <a class="panel-site-link" href="{% url 'veiculos:home' %}">
+                <i data-lucide="external-link" aria-hidden="true"></i>
+                Ir para o site
+            </a>
+
+            <a class="panel-exit" href="{% url 'painel:logout' %}">
+                <i data-lucide="log-out" aria-hidden="true"></i>
+                Sair
+            </a>
+        </div>
+    </aside>
+
+    <main class="panel-main">
+        <header class="panel-topbar">
+            {% with user_name=request.user.get_full_name|default:request.user.username %}
+            <div>
+                <h1>{% block page_title %}Boa noite, {{ user_name }}.{% endblock %}</h1>
+                <p>{% block page_subtitle %}Aqui está um resumo do seu catálogo.{% endblock %}</p>
+            </div>
+
+            <div class="panel-user">
+                <button class="panel-icon-button" type="button" aria-label="Notificações">
+                    <i data-lucide="bell" aria-hidden="true"></i>
+                </button>
+                <span class="panel-avatar" aria-hidden="true">{{ user_name|slice:":1"|upper }}</span>
+                <span>
+                    <strong>{{ user_name }}</strong>
+                    <small>{% if request.user.is_staff %}Administrador{% else %}Usuário{% endif %}</small>
+                </span>
+                <i data-lucide="chevron-down" aria-hidden="true"></i>
+            </div>
+            {% endwith %}
+        </header>
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="{% static 'js/painel.js' %}?v=20260818-responsive" defer></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{% extends "painel/base.html" %}
+
+{% block title %}Excluir Veículo | Painel FCA Prime Cars{% endblock %}
+{% block page_title %}
+    <a class="panel-title-back" href="{% url 'painel:dashboard' %}" aria-label="Voltar para visão geral">
+        <i data-lucide="arrow-left" aria-hidden="true"></i>
+    </a>
+    Excluir veículo
+{% endblock %}
+{% block page_subtitle %}Confirme a remoção do veículo do catálogo.{% endblock %}
+
+{% block content %}
+<section class="panel-delete-card">
+    <div>
+        <p class="panel-delete-kicker">Ação permanente</p>
+        <h2>{{ veiculo.marca }} {{ veiculo.modelo }}</h2>
+        <p>Tem certeza que deseja excluir este veículo? Esta ação também remove as fotos vinculadas a ele.</p>
+    </div>
+
+    <form method="post" action="{% url 'painel:veiculo_excluir' veiculo.slug %}">
+        {% csrf_token %}
+        <a class="panel-secondary-action" href="{% url 'painel:dashboard' %}">Cancelar</a>
+        <button class="panel-danger-action" type="submit">
+            Excluir veículo
+            <i data-lucide="trash-2" aria-hidden="true"></i>
+        </button>
+    </form>
+</section>
+{% endblock %}

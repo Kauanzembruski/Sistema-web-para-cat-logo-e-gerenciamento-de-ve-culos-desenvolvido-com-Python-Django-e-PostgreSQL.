@@ -1,0 +1,27 @@
+{%load static %}
+<header class="site-header">
+    <div class="header-inner">
+        <a class="brand" href="{% url 'veiculos:home' %}" aria-label="FCA PRIME CARS">
+            <img class="brand-logo" src="{% static 'img/logo.png' %}" alt="FCA PRIME CARS">
+        </a>
+
+        <nav class="main-nav" id="main-nav" aria-label="Menu principal">
+            <a class="{% if active_page == 'home' %}is-active{% endif %}" href="{% url 'veiculos:home' %}">Início</a>
+            <a class="{% if active_page == 'catalogo' %}is-active{% endif %}" href="{% url 'veiculos:catalogo' %}">Catálogo</a>
+            <a href="#sobre">Sobre nós</a>
+            <a href="#contato">Contato</a>
+        </nav>
+
+        <div class="header-contact">
+            <a class="whatsapp-button" href="https://wa.me/5554996170792?text=Olá Felipe! Quero negociar🚀" >
+                <i data-lucide="message-circle" aria-hidden="true"></i>
+                Fale no WhatsApp
+            </a>
+        </div>
+
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+            <i data-lucide="menu" aria-hidden="true"></i>
+            <span class="sr-only">Abrir menu</span>
+        </button>
+    </div>
+</header>
